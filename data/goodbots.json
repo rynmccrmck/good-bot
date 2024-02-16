@@ -1,0 +1,285 @@
+{
+  "lastUpdated": "2024-02-01",
+  "bots": [
+    {
+      "name": "Amazonbot",
+      "type": "Search Engine Verification",
+      "UserAgentPattern": "amazonbot",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".crawl.amazonbot.amazon"
+      ],
+      "Sources": [
+        "https://developer.amazon.com/support/amazonbot",
+        "https://github.com/CIDRAM/CIDRAM/issues/317"
+      ]
+    },
+    {
+      "name": "Applebot",
+      "type": "Search Engine Verification",
+      "UserAgentPattern": "applebot",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".applebot.apple.com"
+      ],
+      "Sources": [
+        "https://discussions.apple.com/thread/7090135",
+        "https://support.apple.com/en-gb/HT204683"
+      ]
+    },
+    {
+      "name": "Baiduspider",
+      "type": "Search Engine Verification",
+      "UserAgentPattern": "baiduspider",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".baidu.com",
+        ".baidu.jp"
+      ],
+      "Bypass flag": "Flag-Bypass-Baidu-Check",
+      "Sources": [
+        "https://help.baidu.com/question?prod_en=master&class=Baiduspider",
+        "https://help.baidu.com/question?prod_id=99&class=476&id=3001"
+      ]
+    },
+    {
+      "name": "Bingbot",
+      "type": "Search Engine Verification",
+      "UserAgentPattern": "~(?:msn|bing)bot|bingpreview~",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".search.msn.com"
+      ],
+      "Bypass flag": "Flag-Bypass-Bingbot-Check",
+      "Sources": [
+        "https://blogs.bing.com/webmaster/2012/08/31/how-to-verify-that-bingbot-is-bingbot",
+        "https://github.com/CIDRAM/CIDRAM/issues/242"
+      ]
+    },
+    {
+      "name": "Embedly",
+      "type": "Search Engine Verification",
+      "UserAgentPattern": "embedly",
+      "Method": "dnsReverseForward",
+      "Reverse only": true,
+      "ValidDomains": [
+        "embed.ly"
+      ],
+      "Sources": [
+        "https://udger.com/resources/ua-list/bot-detail?bot=Embedly#id22674"
+      ]
+    },
+    {
+      "name": "Facebook external hit",
+      "type": "Social Media Verification",
+      "UserAgentPattern": "~facebook(?:catalog|externalhit)/(?!1\\.1 facebot twitterbot/1\\.0)~",
+      "Method": "uaAsnMatch",
+      "ValidDomains": [
+        "32934"
+      ],
+      "Sources": [
+        "https://developers.facebook.com/docs/sharing/webmasters/crawler/",
+        "https://github.com/CIDRAM/CIDRAM/issues/170",
+        "https://github.com/CIDRAM/CIDRAM/issues/263"
+      ]
+    },
+    {
+      "name": "Pinterest",
+      "type": "Social Media Verification",
+      "UserAgentPattern": "pinterest",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".pinterest.com",
+        ".pinterestcrawler.com"
+      ],
+      "Sources": [
+        "https://github.com/CIDRAM/CIDRAM/issues/253",
+        "https://github.com/CIDRAM/CIDRAM/issues/322",
+        "https://help.pinterest.com/en/business/article/pinterest-crawler"
+      ]
+    },
+    {
+      "name": "Twitterbot",
+      "type": "Social Media Verification",
+      "UserAgentPattern": "~(?<!^telegrambot \\(like )(?<!^facebookexternalhit/1\\.1 facebot )twitterbot~",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".twttr.com"
+      ],
+      "Sources": [
+        "https://udger.com/resources/ua-list/bot-detail?bot=Twitterbot#id6168",
+        "https://github.com/CIDRAM/CIDRAM/issues/263",
+        "https://github.com/CIDRAM/CIDRAM/issues/341"
+      ]
+    },
+    {
+      "name": "Snap URL Preview Service",
+      "type": "Social Media Verification",
+      "UserAgentPattern": "~snapchat|developers\\.snap\\.com/robots$~",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".amazonaws.com"
+      ],
+      "Sources": [
+        "https://github.com/CIDRAM/CIDRAM/issues/422",
+        "https://robotsdb.de/snap-url-preview-service-bot-snapchat/",
+        "https://udger.com/resources/ua-list/bot-detail?bot=Snap+URL+Preview+Service"
+      ]
+    },
+    {
+      "name": "Google AdSense",
+      "type": "Other Verification",
+      "UserAgentPattern": "mediapartners-google",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".google.com",
+        ".googlebot.com"
+      ],
+      "Sources": [
+        "https://developers.google.com/search/docs/advanced/crawling/overview-google-crawlers",
+        "https://github.com/CIDRAM/CIDRAM/issues/233"
+      ]
+    },
+    {
+      "name": "AmazonAdBot",
+      "type": "Other Verification",
+      "UserAgentPattern": "~amazonadbot|adbot\\.amazon\\.com~",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".amazonadbot.com"
+      ],
+      "Sources": [
+        "https://adbot.amazon.com/index.html",
+        "https://github.com/CIDRAM/CIDRAM/issues/260"
+      ]
+    },
+    {
+      "name": "ChatGPT-User",
+      "type": "Other Verification",
+      "UserAgentPattern": "chatgpt-user",
+      "Method": "uaCidrMatch",
+      "ValidDomains": [
+        "13.66.11.96/28",
+        "23.98.142.176/28",
+        "23.102.140.112/28",
+        "40.84.180.224/28",
+        "52.230.152.0/24",
+        "52.233.106.0/24"
+      ],
+      "Sources": [
+        "https://platform.openai.com/docs/plugins/bot"
+      ]
+    },
+    {
+      "name": "GPTBot",
+      "type": "Other Verification",
+      "UserAgentPattern": "gptbot",
+      "Method": "uaCidrMatch",
+      "ValidDomains": [
+        "13.66.11.96/28",
+        "23.98.142.176/28",
+        "23.102.140.112/28",
+        "40.84.180.224/28",
+        "52.230.152.0/24",
+        "52.233.106.0/24"
+      ],
+      "Sources": [
+        "https://openai.com/gptbot-ranges.txt",
+        "https://platform.openai.com/docs/gptbot",
+        "https://platform.openai.com/docs/plugins/production"
+      ]
+    },
+    {
+      "name": "Grapeshot",
+      "type": "Other Verification",
+      "UserAgentPattern": "grapeshot",
+      "Method": "uaCidrMatch",
+      "ValidDomains": [
+        "132.145.9.5/32",
+        "132.145.11.125/32",
+        "132.145.14.70/32",
+        "132.145.15.209/32",
+        "132.145.64.33/32",
+        "132.145.66.116/32",
+        "132.145.66.156/32",
+        "132.145.67.248/32",
+        "140.238.81.78/32",
+        "140.238.83.181/32",
+        "140.238.94.137/32",
+        "140.238.95.47/32",
+        "140.238.95.199/32",
+        "148.64.56.64/28",
+        "148.64.56.112/28",
+        "152.67.128.219/32",
+        "152.67.137.35/32",
+        "152.67.138.180/32"
+      ]
+    },
+    {
+      "name": "WhatsApp",
+      "type": "Messaging Platform Verification",
+      "UserAgentPattern": "whatsapp",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".whatsapp.com"
+      ],
+      "Sources": [
+        "https://faq.whatsapp.com/general/26000235/"
+      ]
+    },
+    {
+      "name": "Slackbot Link Expanding",
+      "type": "Messaging Platform Verification",
+      "UserAgentPattern": "slackbot",
+      "Method": "none",
+      "ValidDomains": [],
+      "Sources": [
+        "https://api.slack.com/robots"
+      ]
+    },
+    {
+      "name": "DiscordBot",
+      "type": "Messaging Platform Verification",
+      "UserAgentPattern": "discordbot",
+      "Method": "None",
+      "ValidDomains": [],
+      "Sources": [
+        "https://discord.com/developers/docs/intro"
+      ]
+    },
+    {
+      "name": "DuckDuckBot",
+      "type": "Search Engine Verification",
+      "UserAgentPattern": "duckduckbot",
+      "Method": "uaCidrMatch",
+      "ValidDomains": [
+        "20.191.45.212/30",
+        "20.191.45.216/29",
+        "20.191.45.224/27",
+        "20.191.46.0/23",
+        "20.191.48.0/20",
+        "20.191.64.0/18",
+        "20.191.128.0/17",
+        "20.192.0.0/10",
+        "21.0.0.0/8",
+        "22.0.0.0/7",
+        "24.0.0.0/5",
+        "32.0.0.0/5",
+        "40.0.0.0/10",
+        "40.64.0.0/12",
+        "40.80.0.0/13",
+        "40.88.0.0/20",
+        "40.88.16.0/22",
+        "40.88.20.0/24",
+        "40.88.21.0/25",
+        "40.88.21.128/26",
+        "40.88.21.192/27",
+        "40.88.21.224/29",
+        "40.88.21.232/30]"
+      ],
+      "Sources": [
+        "https://help.duckduckgo.com/duckduckgo-help-pages/results/duckduckbot/"
+      ]
+    }
+  ]
+}
