@@ -1,6 +1,6 @@
 # Good Bot
 
-<img src="https://th.bing.com/th/id/OIG4.oSDdfg1IGXiQUMPw74Kg?w=1024&h=1024&rs=1&pid=ImgDetMain" alt="drawing" width="200"/>
+<img src="https://github.com/rynmccrmck/good-bot/assets/5178938/ece7cfe2-4369-4da6-a440-915cbc48368c" alt="drawing" width="200"/>
 
 Good Bot is an open-source, multi-language library designed to enhance web application security and user experience by accurately identifying beneficial automated agents, commonly known as "good bots". These agents perform various essential tasks, including search engine indexing, social media insights, link previews, and more. With bot traffic constituting a significant portion of online interactions, distinguishing between helpful and potentially harmful bots is vital for maintaining performance, security, and accurate analytics. Good Bot provides developers and system administrators with a reliable toolset for this purpose, across multiple programming languages.
 
