@@ -17,9 +17,8 @@ var mockBotsData = []map[string]interface{}{
 
 // Test getDomainName function
 func TestGetDomainName(t *testing.T) {
-	// Example IP address with a known reverse DNS
 	ipAddress := "8.8.8.8"
-	expectedHostname := "dns.google" // This can vary based on the current DNS resolution
+	expectedHostname := "dns.google."
 
 	hostname := getDomainName(ipAddress)
 	if hostname != expectedHostname {
