@@ -9,8 +9,6 @@ Good Bot is an open-source, multi-language library designed to enhance web appli
 - **Multi-Language Support**: Available for Python, GoLang, and JavaScript, making Good Bot adaptable to a wide range of projects and development environments.
 - **Accurate Detection**: Leverages an extensive database of user-agent strings, IP addresses, and DNS verification methods to recognize good bots with high accuracy.
 - **Extensibility and Customization**: Designed for easy updates to the bot database and allows custom configurations to meet diverse application needs.
-- **Performance-Oriented**: Implements efficient algorithms and data structures, ensuring minimal impact on your application's performance.
-- **Freemium Model**: Offers core functionalities for free, with additional premium features such as auto-updates, advanced bad bot detection, and customizable data sources.
 
 ### Getting Started
 
