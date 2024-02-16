@@ -1,4 +1,4 @@
-import pytest
+from unittest.mock import patch, mock_open
 from goodbot.data_loader import load_bot_data
 
 mock_json_data = """
@@ -15,15 +15,12 @@ mock_json_data = """
 }
 """
 
+@patch("builtins.open", new_callable=mock_open, read_data=mock_json_data)
 def test_load_bot_data(monkeypatch):
-    def mock_open(*args, **kwargs):
-        return mock_json_data
-
-    monkeypatch.setattr("builtins.open", lambda *args, **kwargs: mock_open())
 
     data = load_bot_data()
     assert data['bots'][0]['name'] == 'MockBot'
-    assert data['bots'][0]['User Agent'] == 'MockBot'
+    assert data['bots'][0]['UserAgent'] == 'MockBot'
     assert data['bots'][0]['Method'] == 'dnsReverseForward'
     assert data['bots'][0]['ValidDomains'] == ['mock.domain.com']
     assert data['bots'][0]['Sources'] == ['https://mock.source.com']
