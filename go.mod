@@ -1,8 +1,8 @@
-module github.com/myname/goodbot
+module github.com/rynmccmrmck/goodbot
 
 go 1.16
 
-replace github.com/myname/goodbot/languages/go => ./languages/go
+replace github.com/rynmccmrmck/goodbot/languages/go => ./languages/go
 
 require (
 	github.com/jamesog/iptoasn v0.1.0

@@ -72,7 +72,7 @@ func IsGoodBot(userAgent, ipAddress string, botsData []map[string]interface{}) (
 	for _, bot := range botsData {
 		uaPattern := bot["UserAgentPattern"].(string)
 		if IsUserAgentMatch(userAgent, uaPattern) {
-			sources := bot["Valid domains"].([]string)
+			sources := bot["ValidDomains"].([]string)
 			method := bot["Method"].(string)
 			if isVerifiedIP(ipAddress, sources, method) {
 				return true, bot["name"].(string)

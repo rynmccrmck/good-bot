@@ -1,9 +1,9 @@
 import ipaddress
 import re
 import socket
-from data_loader import load_bot_data
 from aslookup import get_as_data
 
+from .data_loader import load_bot_data
 
 def get_domain_name(ip_address):
     """Get the domain name from the IP address."""
@@ -46,7 +46,7 @@ def is_good_bot(user_agent, ip_address, bots_data):
     """Check if the user agent and IP address belong to a good bot."""
     for bot in bots_data:
         if is_user_agent_match(user_agent, bot.get('UserAgentPattern')):
-            sources = bot['Valid domains']
+            sources = bot['ValidDomains']
             if is_verified_ip(ip_address, sources, bot['Method']):
                 return True, bot['name']
     return False, None

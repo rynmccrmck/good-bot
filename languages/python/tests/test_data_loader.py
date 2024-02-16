@@ -6,9 +6,9 @@ mock_json_data = """
     "bots": [
         {
             "name": "MockBot",
-            "User Agent": "MockBot",
+            "UserAgent": "MockBot",
             "Method": "dnsReverseForward",
-            "Valid domains": ["mock.domain.com"],
+            "ValidDomains": ["mock.domain.com"],
             "Sources": ["https://mock.source.com"]
         }
     ]
@@ -25,5 +25,5 @@ def test_load_bot_data(monkeypatch):
     assert data['bots'][0]['name'] == 'MockBot'
     assert data['bots'][0]['User Agent'] == 'MockBot'
     assert data['bots'][0]['Method'] == 'dnsReverseForward'
-    assert data['bots'][0]['Valid domains'] == ['mock.domain.com']
+    assert data['bots'][0]['ValidDomains'] == ['mock.domain.com']
     assert data['bots'][0]['Sources'] == ['https://mock.source.com']

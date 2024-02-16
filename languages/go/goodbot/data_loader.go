@@ -8,11 +8,11 @@ import (
 
 // BotData represents the structure of our JSON data. Adjust this according to your actual JSON structure.
 type BotData map[string]map[string]struct {
-	UserAgent        string   `json:"User Agent"`
+	UserAgent        string   `json:"UserAgent"`
 	Method           string   `json:"Method"`
-	ValidDomains     []string `json:"Valid domains"`
-	BypassFlag       string   `json:"Bypass flag,omitempty"`
-	UserAgentPattern string   `json:"User Agent Pattern,omitempty"`
+	ValidDomains     []string `json:"ValidDomains"`
+	BypassFlag       string   `json:"BypassFlag,omitempty"`
+	UserAgentPattern string   `json:"UserAgentPattern,omitempty"`
 }
 
 // LoadBotData loads bot data from a specified JSON file path.
