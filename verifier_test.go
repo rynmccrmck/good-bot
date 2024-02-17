@@ -2,9 +2,9 @@ package goodbot
 
 import (
 	"testing"
+	
 )
 
-// Mock data and helper functions for testing
 var mockBotsData = []map[string]interface{}{
 	{
 		"name":             "TestBot",
@@ -12,10 +12,9 @@ var mockBotsData = []map[string]interface{}{
 		"Method":           "dnsReverseForward",
 		"ValidDomains":     []string{"test.domain.com"},
 	},
-	// Add more mock bot data as needed for testing
 }
 
-// Test getDomainName function
+
 func TestGetDomainName(t *testing.T) {
 	ipAddress := "8.8.8.8"
 	expectedHostname := "dns.google."
@@ -24,11 +23,8 @@ func TestGetDomainName(t *testing.T) {
 	if hostname != expectedHostname {
 		t.Errorf("Expected hostname %s, got %s", expectedHostname, hostname)
 	}
-
-	// Add more test cases as needed
 }
 
-// Test IsUserAgentMatch function
 func TestIsUserAgentMatch(t *testing.T) {
 	userAgent := "TestBot/1.0"
 	uaPattern := "^TestBot"

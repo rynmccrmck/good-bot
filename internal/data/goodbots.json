@@ -2,7 +2,7 @@
   "lastUpdated": "2024-02-01",
   "bots": [
     {
-      "name": "Amazonbot",
+      "Name": "Amazonbot",
       "type": "Search Engine Verification",
       "UserAgentPattern": "amazonbot",
       "Method": "dnsReverseForward",
@@ -15,7 +15,7 @@
       ]
     },
     {
-      "name": "Applebot",
+      "Name": "Applebot",
       "type": "Search Engine Verification",
       "UserAgentPattern": "applebot",
       "Method": "dnsReverseForward",
@@ -28,7 +28,7 @@
       ]
     },
     {
-      "name": "Baiduspider",
+      "Name": "Baiduspider",
       "type": "Search Engine Verification",
       "UserAgentPattern": "baiduspider",
       "Method": "dnsReverseForward",
@@ -43,7 +43,7 @@
       ]
     },
     {
-      "name": "Bingbot",
+      "Name": "Bingbot",
       "type": "Search Engine Verification",
       "UserAgentPattern": "~(?:msn|bing)bot|bingpreview~",
       "Method": "dnsReverseForward",
@@ -57,7 +57,7 @@
       ]
     },
     {
-      "name": "Embedly",
+      "Name": "Embedly",
       "type": "Search Engine Verification",
       "UserAgentPattern": "embedly",
       "Method": "dnsReverseForward",
@@ -70,7 +70,7 @@
       ]
     },
     {
-      "name": "Facebook external hit",
+      "Name": "Facebook external hit",
       "type": "Social Media Verification",
       "UserAgentPattern": "~facebook(?:catalog|externalhit)/(?!1\\.1 facebot twitterbot/1\\.0)~",
       "Method": "uaAsnMatch",
@@ -84,7 +84,7 @@
       ]
     },
     {
-      "name": "Pinterest",
+      "Name": "Pinterest",
       "type": "Social Media Verification",
       "UserAgentPattern": "pinterest",
       "Method": "dnsReverseForward",
@@ -99,7 +99,7 @@
       ]
     },
     {
-      "name": "Twitterbot",
+      "Name": "Twitterbot",
       "type": "Social Media Verification",
       "UserAgentPattern": "~(?<!^telegrambot \\(like )(?<!^facebookexternalhit/1\\.1 facebot )twitterbot~",
       "Method": "dnsReverseForward",
@@ -113,7 +113,7 @@
       ]
     },
     {
-      "name": "Snap URL Preview Service",
+      "Name": "Snap URL Preview Service",
       "type": "Social Media Verification",
       "UserAgentPattern": "~snapchat|developers\\.snap\\.com/robots$~",
       "Method": "dnsReverseForward",
@@ -127,7 +127,7 @@
       ]
     },
     {
-      "name": "Google AdSense",
+      "Name": "Google AdSense",
       "type": "Other Verification",
       "UserAgentPattern": "mediapartners-google",
       "Method": "dnsReverseForward",
@@ -141,7 +141,7 @@
       ]
     },
     {
-      "name": "AmazonAdBot",
+      "Name": "AmazonAdBot",
       "type": "Other Verification",
       "UserAgentPattern": "~amazonadbot|adbot\\.amazon\\.com~",
       "Method": "dnsReverseForward",
@@ -154,7 +154,7 @@
       ]
     },
     {
-      "name": "ChatGPT-User",
+      "Name": "ChatGPT-User",
       "type": "Other Verification",
       "UserAgentPattern": "chatgpt-user",
       "Method": "uaCidrMatch",
@@ -171,7 +171,7 @@
       ]
     },
     {
-      "name": "GPTBot",
+      "Name": "GPTBot",
       "type": "Other Verification",
       "UserAgentPattern": "gptbot",
       "Method": "uaCidrMatch",
@@ -190,7 +190,7 @@
       ]
     },
     {
-      "name": "Grapeshot",
+      "Name": "Grapeshot",
       "type": "Other Verification",
       "UserAgentPattern": "grapeshot",
       "Method": "uaCidrMatch",
@@ -216,7 +216,7 @@
       ]
     },
     {
-      "name": "WhatsApp",
+      "Name": "WhatsApp",
       "type": "Messaging Platform Verification",
       "UserAgentPattern": "whatsapp",
       "Method": "dnsReverseForward",
@@ -228,7 +228,7 @@
       ]
     },
     {
-      "name": "Slackbot Link Expanding",
+      "Name": "Slackbot Link Expanding",
       "type": "Messaging Platform Verification",
       "UserAgentPattern": "slackbot",
       "Method": "none",
@@ -238,7 +238,7 @@
       ]
     },
     {
-      "name": "DiscordBot",
+      "Name": "DiscordBot",
       "type": "Messaging Platform Verification",
       "UserAgentPattern": "discordbot",
       "Method": "None",
@@ -248,7 +248,7 @@
       ]
     },
     {
-      "name": "DuckDuckBot",
+      "Name": "DuckDuckBot",
       "type": "Search Engine Verification",
       "UserAgentPattern": "duckduckbot",
       "Method": "uaCidrMatch",

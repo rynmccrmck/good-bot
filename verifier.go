@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	iptoasn "github.com/jamesog/iptoasn"
+	internal "github.com/rynmccmrmck/goodbot/internal"
 	cidr "github.com/yl2chen/cidranger"
 )
 
@@ -68,16 +69,23 @@ func IsUserAgentMatch(userAgent, uaPattern string) bool {
 	return matched
 }
 
-func IsGoodBot(userAgent, ipAddress string, botsData []map[string]interface{}) (bool, string) {
+type BotResult struct {
+	IsGoodBot bool
+	BotName   string
+}
+
+func IsGoodBot(userAgent, ipAddress string) BotResult {
+	botsData := internal.GetBots().Bots
 	for _, bot := range botsData {
-		uaPattern := bot["UserAgentPattern"].(string)
+
+		uaPattern := bot.UserAgentPattern
 		if IsUserAgentMatch(userAgent, uaPattern) {
-			sources := bot["ValidDomains"].([]string)
-			method := bot["Method"].(string)
+			sources := bot.ValidDomains
+			method := bot.Method
 			if isVerifiedIP(ipAddress, sources, method) {
-				return true, bot["name"].(string)
+				return BotResult{true, bot.Name}
 			}
 		}
 	}
-	return false, ""
+	return BotResult{false, ""}
 }
