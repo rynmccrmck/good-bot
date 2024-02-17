@@ -1,5 +1,7 @@
 # Good Bot
 
+[![codecov](https://codecov.io/gh/rynmccrmck/good-bot/graph/badge.svg?token=4X6S00774G)](https://codecov.io/gh/rynmccrmck/good-bot)
+
 <img src="https://github.com/rynmccrmck/good-bot/assets/5178938/ece7cfe2-4369-4da6-a440-915cbc48368c" alt="drawing" width="200"/>
 
 **Good Bot** is an open-source Go library designed to enhance web application security and user experience by distinguishing beneficial automated agents, or "good bots", from potentially harmful traffic. In the digital ecosystem where bots play a crucial role—from search engine indexing to social media insights and link previews—it's essential to identify and welcome these friendly bots. Good Bot equips Go developers with the tools to recognize these agents accurately, ensuring your analytics remain accurate and your services optimized.
