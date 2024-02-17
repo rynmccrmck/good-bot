@@ -23,7 +23,6 @@ type BotEntry struct {
 	Name             string   `json:"Name"`
 	Method           string   `json:"Method"`
 	ValidDomains     []string `json:"ValidDomains"`
-	BypassFlag       string   `json:"BypassFlag,omitempty"`
 	UserAgentPattern string   `json:"UserAgentPattern,omitempty"`
 }
 

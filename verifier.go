@@ -4,14 +4,21 @@ import (
 	"net"
 	"regexp"
 	"strconv"
+	"strings"
 
 	iptoasn "github.com/jamesog/iptoasn"
 	internal "github.com/rynmccmrmck/goodbot/internal"
 	cidr "github.com/yl2chen/cidranger"
 )
 
-// getDomainName attempts to find the domain name associated with an IP address.
-func getDomainName(ipAddress string) string {
+type NetworkUtils interface {
+	GetDomainName(ipAddress string) string
+	GetASN(ipAddress string) (string, error)
+}
+
+type defaultNetworkUtils struct{}
+
+func (n defaultNetworkUtils) GetDomainName(ipAddress string) string {
 	hosts, err := net.LookupAddr(ipAddress)
 	if err != nil {
 		return "No domain name found"
@@ -19,8 +26,7 @@ func getDomainName(ipAddress string) string {
 	return hosts[0]
 }
 
-// getASN returns the Autonomous System Number (ASN) of the given IP address.
-func getASN(ipAddress string) (string, error) {
+func (n defaultNetworkUtils) GetASN(ipAddress string) (string, error) {
 	ip, err := iptoasn.LookupIP(ipAddress)
 	if err != nil {
 		return "", err
@@ -28,13 +34,23 @@ func getASN(ipAddress string) (string, error) {
 	return strconv.Itoa(int(ip.ASNum)), nil
 }
 
+type BotService struct {
+	networkUtils NetworkUtils
+}
+
+func NewBotService(nu NetworkUtils) *BotService {
+	return &BotService{
+		networkUtils: nu,
+	}
+}
+
 // isVerifiedIP checks if the given IP matches the domain's resolved IPs.
-func isVerifiedIP(ip string, sources []string, method string) bool {
+func isVerifiedIP(nu NetworkUtils, ip string, sources []string, method string) bool {
 	switch method {
 	case "dnsReverseForward":
-		hostname := getDomainName(ip)
+		hostname := nu.GetDomainName(ip)
 		for _, source := range sources {
-			if hostname == source {
+			if strings.HasSuffix(hostname, source) {
 				return true
 			}
 		}
@@ -50,7 +66,7 @@ func isVerifiedIP(ip string, sources []string, method string) bool {
 			return true
 		}
 	case "uaAsnMatch":
-		asn, _ := getASN(ip)
+		asn, _ := nu.GetASN(ip)
 		for _, source := range sources {
 			if asn == source {
 				return true
@@ -75,7 +91,7 @@ type BotResult struct {
 	BotName   string
 }
 
-func IsGoodBot(userAgent, ipAddress string) BotResult {
+func (bs *BotService) IsGoodBot(userAgent, ipAddress string) BotResult {
 	botsData := internal.GetBots().Bots
 	for _, bot := range botsData {
 
@@ -83,10 +99,16 @@ func IsGoodBot(userAgent, ipAddress string) BotResult {
 		if IsUserAgentMatch(userAgent, uaPattern) {
 			sources := bot.ValidDomains
 			method := bot.Method
-			if isVerifiedIP(ipAddress, sources, method) {
+			if isVerifiedIP(bs.networkUtils, ipAddress, sources, method) {
 				return BotResult{true, bot.Name}
 			}
 		}
 	}
 	return BotResult{false, ""}
+}
+
+var defaultService = NewBotService(defaultNetworkUtils{})
+
+func IsGoodBot(userAgent, ipAddress string) BotResult {
+	return defaultService.IsGoodBot(userAgent, ipAddress)
 }

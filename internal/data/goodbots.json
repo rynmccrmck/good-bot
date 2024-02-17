@@ -2,6 +2,19 @@
   "lastUpdated": "2024-02-01",
   "bots": [
     {
+      "Name": "Googlebot",
+      "type": "Search Engine Verification",
+      "UserAgentPattern": "googlebot",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".google.com",
+        ".googlebot.com"
+      ],
+      "Sources": [
+        "https://support.google.com/webmasters/answer/80553?hl=en"
+      ]
+    },
+    {
       "Name": "Amazonbot",
       "type": "Search Engine Verification",
       "UserAgentPattern": "amazonbot",
@@ -72,7 +85,7 @@
     {
       "Name": "Facebook external hit",
       "type": "Social Media Verification",
-      "UserAgentPattern": "~facebook(?:catalog|externalhit)/(?!1\\.1 facebot twitterbot/1\\.0)~",
+      "UserAgentPattern": "facebook(?:catalog|externalhit)",
       "Method": "uaAsnMatch",
       "ValidDomains": [
         "32934"
