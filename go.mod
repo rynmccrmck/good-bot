@@ -1,4 +1,4 @@
-module github.com/rynmccmrmck/goodbot
+module github.com/rynmccrmck/goodbot
 
 go 1.16
 
