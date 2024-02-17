@@ -62,7 +62,8 @@ func isVerifiedIP(ip string, sources []string, method string) bool {
 
 // isUserAgentMatch checks if the user agent matches the pattern.
 func IsUserAgentMatch(userAgent, uaPattern string) bool {
-	matched, err := regexp.MatchString(uaPattern, userAgent)
+	caseInsensitivePattern := "(?i)" + uaPattern
+	matched, err := regexp.MatchString(caseInsensitivePattern, userAgent)
 	if err != nil {
 		return false
 	}
