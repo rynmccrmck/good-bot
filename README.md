@@ -12,12 +12,16 @@
 - **High Performance**: With embedded data, Good Bot starts quickly and operates efficiently, requiring no external dependencies.
 - **Flexibility and Customization**: The bot database is easily extendable and supports customization to align with various application requirements. Contributions are highly encouraged!
 
+### How It Works
+
+Good Bot meticulously analyzes HTTP request headers, verifying user-agent strings and IP addresses against a curated list of known friendly bots. By focusing on valid domain names, CIDR ranges, ASNs, and specific user-agent patterns, Good Bot can accurately classify a bot's intentions, distinguishing between those that enhance your web ecosystem and those that do not.
+
 ### Getting Started
 
 To use Good Bot in your Go project, simply add it as a dependency:
 
 ```bash
-go get github.com/rynmccmrmck/goodbot
+go get github.com/rynmccrmck/goodbot
 ```
 
 #### Basic Usage
@@ -29,7 +33,7 @@ package main
 
 import (
     "fmt"
-    "github.com/rynmccmrmck/goodbot"
+    "github.com/rynmccrmck/goodbot"
 )
 
 func main() {
@@ -45,9 +49,62 @@ func main() {
 }
 ```
 
-### How It Works
+#### Bulk Verifier Tool
 
-Good Bot meticulously analyzes HTTP request headers, verifying user-agent strings and IP addresses against a curated list of known friendly bots. By focusing on valid domain names, CIDR ranges, ASNs, and specific user-agent patterns, Good Bot can accurately classify a bot's intentions, distinguishing between those that enhance your web ecosystem and those that do not.
+Goodbot includes a command-line tool, bulkVerifier, designed to process a CSV file and identify whether each entry (based on user agent and IP address) corresponds to a known good bot. This tool adds two columns to the output CSV: is_good_bot (true/false) and bot_name (the name of the bot if identified).
+
+##### Installation
+Ensure you have Go installed on your system. Clone the repository and navigate to the bulkVerifier directory:
+
+```sh
+git clone https://github.com/rynmccmrmck/goodbot.git
+cd goodbot/cmd/bulkVerifier
+```
+
+Build the tool with Go:
+
+```sh
+go build -o bulkVerifier
+```
+
+##### Usage
+
+After building the tool, you can run it directly from the command line:
+
+```sh
+./bulkVerifier <input.csv> <output.csv>
+```
+
+- `<input.csv>`: Path to the input CSV file containing the data to be processed. The CSV should have headers, with the first two columns being `user_agent` and `ip_address`.
+- `<output.csv>`: Path where the output CSV file will be saved. This file will include the original data plus two additional columns: `is_good_bot` and `bot_name`.
+
+##### Input File Format
+
+The input CSV file should be formatted with at least two columns: `user_agent` and `ip_address`. Here's an example:
+
+```csv
+user_agent,ip_address
+Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html),66.249.66.1
+```
+
+##### Output File Format
+
+The output CSV file will include the same data as the input file, with two additional columns indicating whether each entry is a known good bot and the bot's name if identified:
+
+```csv
+user_agent,ip_address,is_good_bot,bot_name
+Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html),66.249.66.1,Yes,Googlebot
+```
+
+##### Example
+
+To process an input file named `requests.csv` and save the output to `results.csv`, use the following command:
+
+```sh
+./bulkVerifier requests.csv results.csv
+```
+
+This will analyze each row in `requests.csv`, determine if the user agent and IP address match a known good bot, and append the results to `results.csv`.
 
 ### Contributing
 

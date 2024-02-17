@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	iptoasn "github.com/jamesog/iptoasn"
-	internal "github.com/rynmccmrmck/goodbot/internal"
+	internal "github.com/rynmccrmck/goodbot/internal"
 	cidr "github.com/yl2chen/cidranger"
 )
 
