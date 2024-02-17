@@ -2,13 +2,13 @@
 
 <img src="https://github.com/rynmccrmck/good-bot/assets/5178938/ece7cfe2-4369-4da6-a440-915cbc48368c" alt="drawing" width="200"/>
 
-Good Bot is an open-source Go library designed to enhance web application security and user experience by accurately identifying beneficial automated agents, commonly known as "good bots". These agents perform various essential tasks, including search engine indexing, social media insights, link previews, and more. With bot traffic constituting a significant portion of online interactions, distinguishing between helpful and potentially harmful bots is vital for maintaining performance, security, and accurate analytics. Good Bot provides Go developers with a reliable toolset for this purpose.
+**Good Bot** is an open-source Go library designed to enhance web application security and user experience by distinguishing beneficial automated agents, or "good bots", from potentially harmful traffic. In the digital ecosystem where bots play a crucial role—from search engine indexing to social media insights and link previews—it's essential to identify and welcome these friendly bots. Good Bot equips Go developers with the tools to recognize these agents accurately, ensuring your analytics remain accurate and your services optimized.
 
 ### Features
 
-- **Accurate Detection**: Leverages an extensive database of user-agent strings, IP addresses, and DNS verification methods to recognize good bots with high accuracy.
-- **Efficiency**: Embedded data ensures quick startup and high-performance operation without external dependencies.
-- **Customization**: Allows for easy updates to the bot database and supports custom configurations to meet diverse application needs. Contributions encouraged!
+- **Accurate Bot Recognition**: Utilizes a comprehensive database of user-agent strings, IP addresses, DNS verification methods, and more to identify good bots with high precision.
+- **High Performance**: With embedded data, Good Bot starts quickly and operates efficiently, requiring no external dependencies.
+- **Flexibility and Customization**: The bot database is easily extendable and supports customization to align with various application requirements. Contributions are highly encouraged!
 
 ### Getting Started
 
@@ -31,25 +31,25 @@ import (
 )
 
 func main() {
-    userAgent := "<USER_AGENT_STRING>"
-    ipAddress := "<IP_ADDRESS>"
+    userAgent := "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+    ipAddress := "66.249.66.1"
 
-    isBot, botName := goodbot.IsGoodBot(userAgent, ipAddress)
-    if isBot {
-        fmt.Printf("Good bot detected: %s\n", botName)
+    result := goodbot.CheckBotStatus(userAgent, ipAddress)
+    if result.Status == goodbot.BotStatusFriendly {
+        fmt.Printf("Friendly bot detected: %s\n", result.BotName)
     } else {
-        fmt.Println("No good bot detected.")
+        fmt.Println("This bot is not recognized as friendly.")
     }
 }
 ```
 
 ### How It Works
 
-Good Bot analyzes HTTP request headers for signatures known to belong to good bots, including user-agent strings and IP addresses. Valid domains, CIDR ranges and ASNs and useragent combinations yeild a "good bot" result.
+Good Bot meticulously analyzes HTTP request headers, verifying user-agent strings and IP addresses against a curated list of known friendly bots. By focusing on valid domain names, CIDR ranges, ASNs, and specific user-agent patterns, Good Bot can accurately classify a bot's intentions, distinguishing between those that enhance your web ecosystem and those that do not.
 
 ### Contributing
 
-We welcome contributions to Good Bot! Enhancing detection capabilities, submitting bug reports, or improving documentation, your help is invaluable in making Good Bot more effective for everyone.
+Contributions to Good Bot are welcome! Whether it's enhancing detection logic, reporting bugs, or improving documentation, your input helps make Good Bot better for everyone.
 
 ### License
 

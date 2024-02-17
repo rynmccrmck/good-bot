@@ -86,12 +86,19 @@ func IsUserAgentMatch(userAgent, uaPattern string) bool {
 	return matched
 }
 
-type BotResult struct {
-	IsGoodBot bool
+type BotStatus int
+
+const (
+	BotStatusUnknown  BotStatus = iota // Bot is not recognized
+	BotStatusFriendly                  // Bot is recognized as friendly
+)
+
+type BotCheckResult struct {
+	BotStatus BotStatus
 	BotName   string
 }
 
-func (bs *BotService) IsGoodBot(userAgent, ipAddress string) BotResult {
+func (bs *BotService) CheckBotStatus(userAgent, ipAddress string) BotCheckResult {
 	botsData := internal.GetBots().Bots
 	for _, bot := range botsData {
 
@@ -100,15 +107,15 @@ func (bs *BotService) IsGoodBot(userAgent, ipAddress string) BotResult {
 			sources := bot.ValidDomains
 			method := bot.Method
 			if isVerifiedIP(bs.networkUtils, ipAddress, sources, method) {
-				return BotResult{true, bot.Name}
+				return BotCheckResult{BotStatusFriendly, bot.Name}
 			}
 		}
 	}
-	return BotResult{false, ""}
+	return BotCheckResult{BotStatusUnknown, ""}
 }
 
 var defaultService = NewBotService(defaultNetworkUtils{})
 
-func IsGoodBot(userAgent, ipAddress string) BotResult {
-	return defaultService.IsGoodBot(userAgent, ipAddress)
+func CheckBotStatus(userAgent, ipAddress string) BotCheckResult {
+	return defaultService.CheckBotStatus(userAgent, ipAddress)
 }

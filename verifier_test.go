@@ -36,57 +36,57 @@ func TestCheckBotIdentity(t *testing.T) {
 	mockNetworkUtils.EXPECT().GetASN("66.249.66.3").Return("12345", nil).AnyTimes()
 
 	tests := []struct {
-		name            string
-		userAgent       string
-		ipAddress       string
-		expectedIsBot   bool
-		expectedBotName string
+		name              string
+		userAgent         string
+		ipAddress         string
+		expectedBotStatus goodbot.BotStatus
+		expectedBotName   string
 	}{
 		{
-			name:            "Googlebot",
-			userAgent:       "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
-			ipAddress:       "66.249.66.1",
-			expectedIsBot:   true,
-			expectedBotName: "Googlebot",
+			name:              "Googlebot",
+			userAgent:         "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+			ipAddress:         "66.249.66.1",
+			expectedBotStatus: goodbot.BotStatusFriendly,
+			expectedBotName:   "Googlebot",
 		},
 		{
-			name:            "Googlebot Wrong IP",
-			userAgent:       "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
-			ipAddress:       "127.0.0.1",
-			expectedIsBot:   false,
-			expectedBotName: "",
+			name:              "Googlebot Wrong IP",
+			userAgent:         "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+			ipAddress:         "127.0.0.1",
+			expectedBotStatus: goodbot.BotStatusUnknown,
+			expectedBotName:   "",
 		},
 		{
-			name:            "Facebook external hit",
-			userAgent:       "facebookexternalhit/2.0",
-			ipAddress:       "66.249.66.2",
-			expectedIsBot:   true,
-			expectedBotName: "Facebook external hit",
+			name:              "Facebook external hit",
+			userAgent:         "facebookexternalhit/2.0",
+			ipAddress:         "66.249.66.2",
+			expectedBotStatus: goodbot.BotStatusFriendly,
+			expectedBotName:   "Facebook external hit",
 		},
 		{
-			name:            "FacebookBot UA Wrong ASN",
-			userAgent:       "facebookexternalhit/2.0",
-			ipAddress:       "66.249.66.3",
-			expectedIsBot:   false,
-			expectedBotName: "",
+			name:              "FacebookBot UA Wrong ASN",
+			userAgent:         "facebookexternalhit/2.0",
+			ipAddress:         "66.249.66.3",
+			expectedBotStatus: goodbot.BotStatusUnknown,
+			expectedBotName:   "",
 		},
 		{
-			name:            "Unknown UA and IP",
-			userAgent:       "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N)",
-			ipAddress:       "192.168.1.1",
-			expectedIsBot:   false,
-			expectedBotName: "",
+			name:              "Unknown UA and IP",
+			userAgent:         "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N)",
+			ipAddress:         "192.168.1.1",
+			expectedBotStatus: goodbot.BotStatusUnknown,
+			expectedBotName:   "",
 		},
 	}
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 
-			botResult := botService.IsGoodBot(tc.userAgent, tc.ipAddress)
+			botResult := botService.CheckBotStatus(tc.userAgent, tc.ipAddress)
 
-			if botResult.IsGoodBot != tc.expectedIsBot || botResult.BotName != tc.expectedBotName {
+			if botResult.BotStatus != tc.expectedBotStatus || botResult.BotName != tc.expectedBotName {
 				t.Errorf("CheckBotIdentity(%q, %q) = (%v, %q), want (%v, %q)",
-					tc.userAgent, tc.ipAddress, botResult.IsGoodBot, botResult.BotName, tc.expectedIsBot, tc.expectedBotName)
+					tc.userAgent, tc.ipAddress, botResult.BotStatus, botResult.BotName, tc.expectedBotStatus, tc.expectedBotName)
 			}
 		})
 	}
