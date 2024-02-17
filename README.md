@@ -31,7 +31,7 @@ package main
 
 import (
     "fmt"
-    "github.com/rynmccmrmck/goodbot/pkg/goodbot"
+    "github.com/rynmccmrmck/goodbot"
 )
 
 func main() {
