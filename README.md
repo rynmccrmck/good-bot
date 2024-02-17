@@ -57,4 +57,4 @@ Good Bot is released under the MIT License. See the [LICENSE](LICENSE.txt) file 
 
 ### Support
 
-For support, please open an issue on our GitHub repository. 
+For support, please open an issue on our GitHub repository.
