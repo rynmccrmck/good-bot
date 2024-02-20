@@ -6,10 +6,12 @@ package goodbot
 
 import (
 	"context"
+	"fmt"
 	"net"
 	"regexp"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/ammario/ipisp/v2"
 	internal "github.com/rynmccrmck/good-bot/internal"
@@ -116,26 +118,66 @@ type BotCheckResult struct {
 
 // CheckBotStatus determines the status of a bot based on the given user agent
 // and IP address. It utilizes internal and external checks to classify bots.
-func (bs *BotService) CheckBotStatus(userAgent, ipAddress string) BotCheckResult {
+func (bs *BotService) CheckBotStatus(ctx context.Context, userAgent, ipAddress string) (BotCheckResult, error) {
 	botsData := internal.GetBots().Bots
-	for _, bot := range botsData {
+	resultChan := make(chan BotCheckResult)
+	errChan := make(chan error)
+	var wg sync.WaitGroup
 
-		uaPattern := bot.UserAgentPattern
-		if IsUserAgentMatch(userAgent, uaPattern) {
-			sources := bot.ValidDomains
-			method := bot.Method
-			if isVerifiedIP(bs.networkUtils, ipAddress, sources, method) {
-				return BotCheckResult{BotStatusFriendly, bot.Name}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	for _, bot := range botsData {
+		wg.Add(1)
+		go func(bot internal.BotEntry) {
+			defer wg.Done()
+			select {
+			case <-ctx.Done():
+				return
+			default:
+				if IsUserAgentMatch(userAgent, bot.UserAgentPattern) {
+					if isVerifiedIP(bs.networkUtils, ipAddress, bot.ValidDomains, bot.Method) {
+						select {
+						case resultChan <- BotCheckResult{BotStatusFriendly, bot.Name}:
+						case <-ctx.Done():
+						}
+						cancel()
+						return
+					}
+				}
+				errChan <- fmt.Errorf("no match for bot: %s", bot.Name)
 			}
+		}(bot)
+	}
+
+	go func() {
+		wg.Wait()
+		close(resultChan)
+		close(errChan)
+	}()
+
+	for {
+		select {
+		case result := <-resultChan:
+			if result.BotStatus == BotStatusFriendly {
+				return result, nil
+			}
+		case err := <-errChan:
+			fmt.Println("Error encountered:", err)
+		case <-ctx.Done():
+			break
 		}
 	}
-	return BotCheckResult{BotStatusUnknown, ""}
+
+	return BotCheckResult{BotStatusUnknown, ""}, nil
 }
 
 var defaultService = NewBotService(defaultNetworkUtils{})
 
 // CheckBotStatus is a convenience function that uses a default BotService
 // instance to check the bot status for the given user agent and IP address.
-func CheckBotStatus(userAgent, ipAddress string) BotCheckResult {
-	return defaultService.CheckBotStatus(userAgent, ipAddress)
+func CheckBotStatus(userAgent, ipAddress string) (BotCheckResult, error) {
+	ctx := context.Background()
+	res, err := defaultService.CheckBotStatus(ctx, userAgent, ipAddress)
+	return res, err
 }

@@ -1,6 +1,7 @@
 package goodbot_test
 
 import (
+	"context"
 	"testing"
 
 	"github.com/golang/mock/gomock"
@@ -81,8 +82,8 @@ func TestCheckBotIdentity(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-
-			botResult := botService.CheckBotStatus(tc.userAgent, tc.ipAddress)
+			ctx := context.Background()
+			botResult, _ := botService.CheckBotStatus(ctx, tc.userAgent, tc.ipAddress)
 
 			if botResult.BotStatus != tc.expectedBotStatus || botResult.BotName != tc.expectedBotName {
 				t.Errorf("CheckBotIdentity(%q, %q) = (%v, %q), want (%v, %q)",
@@ -90,4 +91,15 @@ func TestCheckBotIdentity(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestAdhocTest(t *testing.T) {
+	result, _ := goodbot.CheckBotStatus("facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
+		"173.252.127.15")
+	// fmt.Printf("Is Good Bot: %v, Bot Name: %s\n", result.BotName, result.BotStatus)
+	// Output: Is Good Bot: true, Bot Name: Facebook external hit
+	if result.BotStatus != goodbot.BotStatusFriendly || result.BotName != "Facebook external hit" {
+		t.Errorf("Problem with Facebook external hit %v", result.BotName)
+	}
+
 }

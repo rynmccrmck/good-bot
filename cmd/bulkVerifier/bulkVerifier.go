@@ -52,7 +52,7 @@ func processCSV(inputFile io.Reader, outputFile io.Writer) error {
 		ua := record[0]
 		ip := record[1]
 
-		botResult := goodbot.CheckBotStatus(ua, ip)
+		botResult, _ := goodbot.CheckBotStatus(ua, ip)
 
 		record = append(record, strconv.FormatBool(botResult.BotStatus == goodbot.BotStatusFriendly), botResult.BotName)
 		writer.Write(record)
