@@ -21,7 +21,7 @@ Good Bot meticulously analyzes HTTP request headers, verifying user-agent string
 To use Good Bot in your Go project, simply add it as a dependency:
 
 ```bash
-go get github.com/rynmccrmck/goodbot
+go get github.com/rynmccrmck/good-bot
 ```
 
 #### Basic Usage
@@ -33,7 +33,7 @@ package main
 
 import (
     "fmt"
-    "github.com/rynmccrmck/goodbot"
+    goodbot "github.com/rynmccrmck/good-bot"
 )
 
 func main() {
@@ -57,8 +57,8 @@ Goodbot includes a command-line tool, bulkVerifier, designed to process a CSV fi
 Ensure you have Go installed on your system. Clone the repository and navigate to the bulkVerifier directory:
 
 ```sh
-git clone https://github.com/rynmccmrmck/goodbot.git
-cd goodbot/cmd/bulkVerifier
+git clone https://github.com/rynmccmrmck/good-bot.git
+cd good-bot/cmd/bulkVerifier
 ```
 
 Build the tool with Go:

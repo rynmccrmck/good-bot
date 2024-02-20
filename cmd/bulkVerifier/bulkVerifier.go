@@ -7,7 +7,7 @@ import (
 	"os"
 	"strconv"
 
-	goodbot "github.com/rynmccrmck/goodbot"
+	goodbot "github.com/rynmccrmck/good-bot"
 )
 
 // BulkVerify reads an input CSV and writes the results to an output CSV.

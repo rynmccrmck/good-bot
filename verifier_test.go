@@ -4,10 +4,9 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
-	goodbot "github.com/rynmccrmck/goodbot"
-	"github.com/rynmccrmck/goodbot/mocks"
+	goodbot "github.com/rynmccrmck/good-bot"
+	"github.com/rynmccrmck/good-bot/mocks"
 )
-
 func TestIsUserAgentMatch(t *testing.T) {
 	userAgent := "TestBot/1.0"
 	uaPattern := "^TestBot"
