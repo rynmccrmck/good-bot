@@ -5,12 +5,13 @@
 package goodbot
 
 import (
+	"context"
 	"net"
 	"regexp"
 	"strconv"
 	"strings"
 
-	iptoasn "github.com/jamesog/iptoasn"
+	"github.com/ammario/ipisp/v2"
 	internal "github.com/rynmccrmck/good-bot/internal"
 	cidr "github.com/yl2chen/cidranger"
 )
@@ -39,11 +40,11 @@ func (n defaultNetworkUtils) GetDomainName(ipAddress string) string {
 // GetASN looks up the ASN information for the given IP address using the
 // iptoasn external library. It returns the ASN number as a string.
 func (n defaultNetworkUtils) GetASN(ipAddress string) (string, error) {
-	ip, err := iptoasn.LookupIP(ipAddress)
+	resp, err := ipisp.LookupIP(context.Background(), net.ParseIP(ipAddress))
 	if err != nil {
 		return "", err
 	}
-	return strconv.Itoa(int(ip.ASNum)), nil
+	return strconv.Itoa(int(resp.ASN)), nil
 }
 
 // BotService provides methods for bot detection using network utilities.

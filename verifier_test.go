@@ -7,6 +7,7 @@ import (
 	goodbot "github.com/rynmccrmck/good-bot"
 	"github.com/rynmccrmck/good-bot/mocks"
 )
+
 func TestIsUserAgentMatch(t *testing.T) {
 	userAgent := "TestBot/1.0"
 	uaPattern := "^TestBot"
@@ -57,7 +58,7 @@ func TestCheckBotIdentity(t *testing.T) {
 		},
 		{
 			name:              "Facebook external hit",
-			userAgent:         "facebookexternalhit/2.0",
+			userAgent:         "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
 			ipAddress:         "66.249.66.2",
 			expectedBotStatus: goodbot.BotStatusFriendly,
 			expectedBotName:   "Facebook external hit",
