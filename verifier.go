@@ -6,7 +6,6 @@ package goodbot
 
 import (
 	"context"
-	"fmt"
 	"net"
 	"regexp"
 	"strconv"
@@ -145,7 +144,6 @@ func (bs *BotService) CheckBotStatus(ctx context.Context, userAgent, ipAddress s
 						return
 					}
 				}
-				errChan <- fmt.Errorf("no match for bot: %s", bot.Name)
 			}
 		}(bot)
 	}
@@ -162,8 +160,6 @@ func (bs *BotService) CheckBotStatus(ctx context.Context, userAgent, ipAddress s
 			if result.BotStatus == BotStatusFriendly {
 				return result, nil
 			}
-		case err := <-errChan:
-			fmt.Println("Error encountered:", err)
 		case <-ctx.Done():
 			break
 		}
