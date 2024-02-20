@@ -1,3 +1,7 @@
+// Package goodbot provides utilities for network operations such as domain name resolution,
+// ASN lookup, and bot detection mechanisms based on various criteria including IP verification,
+// User-Agent matching, and more. It utilizes external libraries for enhanced functionality like
+// IP to ASN mapping and CIDR checks.
 package goodbot
 
 import (
@@ -11,13 +15,19 @@ import (
 	cidr "github.com/yl2chen/cidranger"
 )
 
+// NetworkUtils defines an interface for network-related utilities including
+// domain name resolution and ASN lookup for a given IP address.
 type NetworkUtils interface {
 	GetDomainName(ipAddress string) string
 	GetASN(ipAddress string) (string, error)
 }
 
+// defaultNetworkUtils implements the NetworkUtils interface with basic network
+// utilities.
 type defaultNetworkUtils struct{}
 
+// GetDomainName resolves the domain name for the given IP address. It returns
+// the first hostname found or a default message if no domain name is found.
 func (n defaultNetworkUtils) GetDomainName(ipAddress string) string {
 	hosts, err := net.LookupAddr(ipAddress)
 	if err != nil {
@@ -26,6 +36,8 @@ func (n defaultNetworkUtils) GetDomainName(ipAddress string) string {
 	return hosts[0]
 }
 
+// GetASN looks up the ASN information for the given IP address using the
+// iptoasn external library. It returns the ASN number as a string.
 func (n defaultNetworkUtils) GetASN(ipAddress string) (string, error) {
 	ip, err := iptoasn.LookupIP(ipAddress)
 	if err != nil {
@@ -34,10 +46,13 @@ func (n defaultNetworkUtils) GetASN(ipAddress string) (string, error) {
 	return strconv.Itoa(int(ip.ASNum)), nil
 }
 
+// BotService provides methods for bot detection using network utilities.
 type BotService struct {
 	networkUtils NetworkUtils
 }
 
+// NewBotService creates a new instance of BotService with the provided
+// NetworkUtils implementation.
 func NewBotService(nu NetworkUtils) *BotService {
 	return &BotService{
 		networkUtils: nu,
@@ -98,6 +113,8 @@ type BotCheckResult struct {
 	BotName   string
 }
 
+// CheckBotStatus determines the status of a bot based on the given user agent
+// and IP address. It utilizes internal and external checks to classify bots.
 func (bs *BotService) CheckBotStatus(userAgent, ipAddress string) BotCheckResult {
 	botsData := internal.GetBots().Bots
 	for _, bot := range botsData {
@@ -116,6 +133,8 @@ func (bs *BotService) CheckBotStatus(userAgent, ipAddress string) BotCheckResult
 
 var defaultService = NewBotService(defaultNetworkUtils{})
 
+// CheckBotStatus is a convenience function that uses a default BotService
+// instance to check the bot status for the given user agent and IP address.
 func CheckBotStatus(userAgent, ipAddress string) BotCheckResult {
 	return defaultService.CheckBotStatus(userAgent, ipAddress)
 }
