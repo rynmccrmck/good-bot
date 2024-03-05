@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"strconv"
 
 	goodbot "github.com/rynmccrmck/good-bot"
 )
@@ -39,7 +38,7 @@ func processCSV(inputFile io.Reader, outputFile io.Writer) error {
 		os.Exit(1)
 	}
 
-	headers = append(headers, "is_good_bot", "bot_name")
+	headers = append(headers, "bot_status", "bot_name")
 	writer.Write(headers)
 
 	records, err := reader.ReadAll()
@@ -54,7 +53,20 @@ func processCSV(inputFile io.Reader, outputFile io.Writer) error {
 
 		botResult, _ := goodbot.CheckBotStatus(ua, ip)
 
-		record = append(record, strconv.FormatBool(botResult.BotStatus == goodbot.BotStatusFriendly), botResult.BotName)
+		var result string
+		switch botResult.BotStatus {
+		case goodbot.BotStatusFriendly:
+			result = "friendly"
+		case goodbot.BotStatusMalicious:
+			result = "malicious"
+		case goodbot.BotStatusUnknown:
+			result = "unknown"
+		case goodbot.BotStatusPotentialImposter:
+			result = "potential_imposter"
+		case goodbot.BotStatusPotentiallyFriendly:
+			result = "potentially_friendly"
+		}
+		record = append(record, result, botResult.BotName)
 		writer.Write(record)
 	}
 

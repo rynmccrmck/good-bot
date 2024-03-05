@@ -92,8 +92,8 @@ Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html),66.249.
 The output CSV file will include the same data as the input file, with two additional columns indicating whether each entry is a known good bot and the bot's name if identified:
 
 ```csv
-user_agent,ip_address,is_good_bot,bot_name
-Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html),66.249.66.1,Yes,Googlebot
+user_agent,ip_address,bot_status,bot_name
+Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html),66.249.66.1,friendly,Googlebot
 ```
 
 ##### Example

@@ -85,7 +85,9 @@ func isVerifiedIP(nu NetworkUtils, ip string, sources []string, method string) (
 		hosts := nu.GetHosts(ip)
 		for _, host := range hosts {
 			for _, source := range sources {
-				if strings.HasSuffix(host, source) {
+				// FQDNs can have absolute or relative names, so we need to trim the trailing dot
+				trimmedHostname := strings.TrimSuffix(host, ".")
+				if strings.HasSuffix(trimmedHostname, source) {
 					if nu.DoesHostnameResolveBackToIP(ip, host) {
 						return true, BotStatusFriendly
 					} else {
@@ -133,7 +135,7 @@ const (
 	BotStatusFriendly                             // Bot is recognized as friendly
 	BotStatusPotentiallyFriendly                  // Bot is recognized as potentially friendly
 	BotStatusPotentialImposter                    // Bot is recognized as potentially unfriendly
-	BotStatusUnfriendly                           // Bot is recognized as unfriendly
+	BotStatusMalicious                            // Bot is recognized as malicious
 )
 
 type BotCheckResult struct {

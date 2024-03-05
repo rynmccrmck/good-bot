@@ -58,7 +58,7 @@
     {
       "Name": "Bingbot",
       "type": "Search Engine Verification",
-      "UserAgentPattern": "~(?:msn|bing)bot|bingpreview~",
+      "UserAgentPattern": "(?:msn|bing)bot|bingpreview",
       "Method": "dnsReverseForward",
       "ValidDomains": [
         ".search.msn.com"
@@ -1916,6 +1916,62 @@
       "Sources": [
         "https://iframely.com/docs/about",
         "https://iframely.com/ips-v4"
+      ]
+    },
+    {
+      "Name": "Google Storebot",
+      "Owner": "Google",
+      "type": "Search Engine Crawler",
+      "UserAgentPattern": "Googlebot-Store",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".google.com",
+        ".googlebot.com"
+      ],
+      "Sources": [
+        "https://developers.google.com/search/docs/crawling-indexing/overview-google-crawlers#google-storebot"
+      ]
+    },
+    {
+      "Name": "Google Safety",
+      "Owner": "Google",
+      "type": "Search Engine Crawler",
+      "UserAgentPattern": "Google-Safety",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".google.com",
+        ".googlebot.com"
+      ],
+      "Sources": [
+        "https://developers.google.com/search/docs/crawling-indexing/overview-google-crawlers#google-safety"
+      ]
+    },
+    {
+      "Name": "PetalBot",
+      "Owner": "Petal Search",
+      "type": "Search Engine Crawler",
+      "UserAgentPattern": "PetalBot",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".petalsearch.com"
+      ],
+      "Sources": [
+        "https://aspiegel.com/petalbot"
+      ]
+    },
+    {
+      "Name": "YandexBot",
+      "Owner": "Yandex",
+      "type": "Search Engine Crawler",
+      "UserAgentPattern": "YandexBot",
+      "Method": "dnsReverseForward",
+      "ValidDomains": [
+        ".yandex.ru",
+        ".yandex.net",
+        ".yandex.com"
+      ],
+      "Sources": [
+        "https://yandex.com/support/webmaster/robot-workings/check-yandex-robots.html"
       ]
     }
   ]
