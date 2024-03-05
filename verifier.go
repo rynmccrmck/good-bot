@@ -20,8 +20,9 @@ import (
 // NetworkUtils defines an interface for network-related utilities including
 // domain name resolution and ASN lookup for a given IP address.
 type NetworkUtils interface {
-	GetDomainName(ipAddress string) string
+	GetHosts(ipAddress string) []string
 	GetASN(ipAddress string) (string, error)
+	DoesHostnameResolveBackToIP(ipAddress, hostname string) bool
 }
 
 // defaultNetworkUtils implements the NetworkUtils interface with basic network
@@ -30,12 +31,25 @@ type defaultNetworkUtils struct{}
 
 // GetDomainName resolves the domain name for the given IP address. It returns
 // the first hostname found or a default message if no domain name is found.
-func (n defaultNetworkUtils) GetDomainName(ipAddress string) string {
+func (n defaultNetworkUtils) GetHosts(ipAddress string) []string {
 	hosts, err := net.LookupAddr(ipAddress)
 	if err != nil {
-		return "No domain name found"
+		return nil
 	}
-	return hosts[0]
+	return hosts
+}
+
+func (n defaultNetworkUtils) DoesHostnameResolveBackToIP(ipAddress, hostname string) bool {
+	ips, err := net.LookupIP(hostname)
+	if err != nil {
+		return false
+	}
+	for _, ip := range ips {
+		if ip.String() == ipAddress {
+			return true
+		}
+	}
+	return false
 }
 
 // GetASN looks up the ASN information for the given IP address using the
@@ -62,13 +76,22 @@ func NewBotService(nu NetworkUtils) *BotService {
 }
 
 // isVerifiedIP checks if the given IP matches the domain's resolved IPs.
-func isVerifiedIP(nu NetworkUtils, ip string, sources []string, method string) bool {
+func isVerifiedIP(nu NetworkUtils, ip string, sources []string, method string) (bool, BotStatus) {
 	switch method {
+
+	case "uaOnly":
+		return true, BotStatusPotentiallyFriendly
 	case "dnsReverseForward":
-		hostname := nu.GetDomainName(ip)
-		for _, source := range sources {
-			if strings.HasSuffix(hostname, source) {
-				return true
+		hosts := nu.GetHosts(ip)
+		for _, host := range hosts {
+			for _, source := range sources {
+				if strings.HasSuffix(host, source) {
+					if nu.DoesHostnameResolveBackToIP(ip, host) {
+						return true, BotStatusFriendly
+					} else {
+						return false, BotStatusPotentialImposter
+					}
+				}
 			}
 		}
 	case "uaCidrMatch":
@@ -80,17 +103,17 @@ func isVerifiedIP(nu NetworkUtils, ip string, sources []string, method string) b
 		ipAddress := net.ParseIP(ip)
 		contains, _ := ranger.Contains(ipAddress)
 		if contains {
-			return true
+			return true, BotStatusFriendly
 		}
 	case "uaAsnMatch":
 		asn, _ := nu.GetASN(ip)
 		for _, source := range sources {
 			if asn == source {
-				return true
+				return true, BotStatusFriendly
 			}
 		}
 	}
-	return false
+	return false, BotStatusUnknown
 }
 
 // isUserAgentMatch checks if the user agent matches the pattern.
@@ -106,8 +129,11 @@ func IsUserAgentMatch(userAgent, uaPattern string) bool {
 type BotStatus int
 
 const (
-	BotStatusUnknown  BotStatus = iota // Bot is not recognized
-	BotStatusFriendly                  // Bot is recognized as friendly
+	BotStatusUnknown             BotStatus = iota // Bot is not recognized
+	BotStatusFriendly                             // Bot is recognized as friendly
+	BotStatusPotentiallyFriendly                  // Bot is recognized as potentially friendly
+	BotStatusPotentialImposter                    // Bot is recognized as potentially unfriendly
+	BotStatusUnfriendly                           // Bot is recognized as unfriendly
 )
 
 type BotCheckResult struct {
@@ -120,7 +146,6 @@ type BotCheckResult struct {
 func (bs *BotService) CheckBotStatus(ctx context.Context, userAgent, ipAddress string) (BotCheckResult, error) {
 	botsData := internal.GetBots().Bots
 	resultChan := make(chan BotCheckResult)
-	errChan := make(chan error)
 	var wg sync.WaitGroup
 
 	ctx, cancel := context.WithCancel(ctx)
@@ -135,14 +160,19 @@ func (bs *BotService) CheckBotStatus(ctx context.Context, userAgent, ipAddress s
 				return
 			default:
 				if IsUserAgentMatch(userAgent, bot.UserAgentPattern) {
-					if isVerifiedIP(bs.networkUtils, ipAddress, bot.ValidDomains, bot.Method) {
+					if ok, status := isVerifiedIP(bs.networkUtils, ipAddress, bot.ValidDomains, bot.Method); ok {
 						select {
-						case resultChan <- BotCheckResult{BotStatusFriendly, bot.Name}:
+						case resultChan <- BotCheckResult{status, bot.Name}:
 						case <-ctx.Done():
 						}
-						cancel()
-						return
+					} else {
+						select {
+						case resultChan <- BotCheckResult{BotStatusPotentialImposter, bot.Name}:
+						case <-ctx.Done():
+						}
 					}
+					cancel()
+					return
 				}
 			}
 		}(bot)
@@ -151,21 +181,19 @@ func (bs *BotService) CheckBotStatus(ctx context.Context, userAgent, ipAddress s
 	go func() {
 		wg.Wait()
 		close(resultChan)
-		close(errChan)
 	}()
 
 	for {
 		select {
-		case result := <-resultChan:
-			if result.BotStatus == BotStatusFriendly {
-				return result, nil
+		case result, ok := <-resultChan:
+			if !ok {
+				return BotCheckResult{BotStatusUnknown, ""}, nil
 			}
+			return result, nil
 		case <-ctx.Done():
-			break
+			return BotCheckResult{BotStatusUnknown, ""}, nil
 		}
 	}
-
-	return BotCheckResult{BotStatusUnknown, ""}, nil
 }
 
 var defaultService = NewBotService(defaultNetworkUtils{})

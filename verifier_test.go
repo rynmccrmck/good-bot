@@ -31,10 +31,15 @@ func TestCheckBotIdentity(t *testing.T) {
 	mockNetworkUtils := mocks.NewMockNetworkUtils(mockCtrl)
 	botService := goodbot.NewBotService(mockNetworkUtils)
 
-	mockNetworkUtils.EXPECT().GetDomainName("66.249.66.1").Return("crawl-66-249-66-1.googlebot.com").AnyTimes()
-	mockNetworkUtils.EXPECT().GetDomainName("127.0.0.1").Return("localhost").AnyTimes()
+	mockNetworkUtils.EXPECT().GetHosts("66.249.66.1").Return([]string{"crawl-66-249-66-1.googlebot.com"}).AnyTimes()
+	mockNetworkUtils.EXPECT().DoesHostnameResolveBackToIP("66.249.66.1", "crawl-66-249-66-1.googlebot.com").Return(true).AnyTimes()
+	mockNetworkUtils.EXPECT().GetHosts("127.0.0.1").Return([]string{"localhost"}).AnyTimes()
+	mockNetworkUtils.EXPECT().DoesHostnameResolveBackToIP("127.0.0.1", "localhost").Return(true).AnyTimes()
 	mockNetworkUtils.EXPECT().GetASN("66.249.66.2").Return("32934", nil).AnyTimes()
 	mockNetworkUtils.EXPECT().GetASN("66.249.66.3").Return("12345", nil).AnyTimes()
+
+	mockNetworkUtils.EXPECT().GetHosts("66.249.66.4").Return([]string{"crawl-66-249-66-1.googlebot.com"}).AnyTimes()
+	mockNetworkUtils.EXPECT().DoesHostnameResolveBackToIP("66.249.66.4", "crawl-66-249-66-1.googlebot.com").Return(false).AnyTimes()
 
 	tests := []struct {
 		name              string
@@ -54,6 +59,20 @@ func TestCheckBotIdentity(t *testing.T) {
 			name:              "Googlebot Wrong IP",
 			userAgent:         "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
 			ipAddress:         "127.0.0.1",
+			expectedBotStatus: goodbot.BotStatusPotentialImposter,
+			expectedBotName:   "Googlebot",
+		},
+		{
+			name:              "Googlebot Spoofed reverse DNS",
+			userAgent:         "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+			ipAddress:         "66.249.66.4",
+			expectedBotStatus: goodbot.BotStatusPotentialImposter,
+			expectedBotName:   "Googlebot",
+		},
+		{
+			name:              "Not A known Useragent",
+			userAgent:         "Mozilla/5.0 (compatible; nothing-weve-seen-before)",
+			ipAddress:         "127.0.0.1",
 			expectedBotStatus: goodbot.BotStatusUnknown,
 			expectedBotName:   "",
 		},
@@ -68,8 +87,8 @@ func TestCheckBotIdentity(t *testing.T) {
 			name:              "FacebookBot UA Wrong ASN",
 			userAgent:         "facebookexternalhit/2.0",
 			ipAddress:         "66.249.66.3",
-			expectedBotStatus: goodbot.BotStatusUnknown,
-			expectedBotName:   "",
+			expectedBotStatus: goodbot.BotStatusPotentialImposter,
+			expectedBotName:   "Facebook external hit",
 		},
 		{
 			name:              "Unknown UA and IP",
@@ -77,6 +96,13 @@ func TestCheckBotIdentity(t *testing.T) {
 			ipAddress:         "192.168.1.1",
 			expectedBotStatus: goodbot.BotStatusUnknown,
 			expectedBotName:   "",
+		},
+		{
+			name:              "Grapeshot CIDR match",
+			userAgent:         "Mozilla/5.0 (compatible; GrapeshotCrawler/2.0; +http://www.grapeshot.co.uk/crawler.php)",
+			ipAddress:         "132.145.9.5",
+			expectedBotStatus: goodbot.BotStatusFriendly,
+			expectedBotName:   "Grapeshot",
 		},
 	}
 
