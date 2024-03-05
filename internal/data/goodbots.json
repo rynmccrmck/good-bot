@@ -631,8 +631,7 @@
       "type": "Other Verification",
       "UserAgentPattern": "barkrowler",
       "Method": "uaOnly",
-      "ValidDomains": [
-      ],
+      "ValidDomains": [],
       "Sources": [
         "https://www.babbar.tech/crawler"
       ]
@@ -642,8 +641,7 @@
       "type": "Other Verification",
       "UserAgentPattern": "barkrowler",
       "Method": "uaOnly",
-      "ValidDomains": [
-      ],
+      "ValidDomains": [],
       "Sources": [
         "https://www.babbar.tech/crawler"
       ]
@@ -677,8 +675,7 @@
       "type": "Other Verification",
       "UserAgentPattern": "SiteAuditBot|SemrushBot|SplitSignalBot",
       "Method": "uaOnly",
-      "ValidDomains": [
-      ],
+      "ValidDomains": [],
       "Sources": [
         "https://www.semrush.com/bot/"
       ]
@@ -688,8 +685,7 @@
       "type": "Other Verification",
       "UserAgentPattern": "pingdom",
       "Method": "uaOnly",
-      "ValidDomains": [
-      ],
+      "ValidDomains": [],
       "Sources": [
         "https://www.pingdom.com/blog/make-the-most-of-your-http-check-best-practice-for-optional-settings/"
       ]
@@ -722,8 +718,7 @@
       "type": "Other Verification",
       "UserAgentPattern": "whatis.contentkingapp.com",
       "Method": "uaOnly",
-      "ValidDomains": [
-      ],
+      "ValidDomains": [],
       "Sources": [
         "https://www.contentkingapp.com/support/user-agent-string/"
       ]
@@ -1255,8 +1250,7 @@
       "type": "Other Verification",
       "UserAgentPattern": "Site24x7",
       "Method": "uaOnly",
-      "ValidDomains": [
-      ],
+      "ValidDomains": [],
       "Sources": [
         "https://support.site24x7.com/portal/en/kb/articles/which-web-browser-is-used-by-web-application-real-browser-monitor-to-perform-monitoring-of-my-recorded-web-transactions"
       ]
@@ -1267,8 +1261,7 @@
       "type": "Other Verification",
       "UserAgentPattern": "proximic",
       "Method": "uaOnly",
-      "ValidDomains": [
-      ],
+      "ValidDomains": [],
       "Sources": [
         "https://www.proximic.com/Web-Crawler"
       ]
@@ -1278,8 +1271,7 @@
       "type": "Other Verification",
       "UserAgentPattern": "botify",
       "Method": "uaOnly",
-      "ValidDomains": [
-      ],
+      "ValidDomains": [],
       "Sources": [
         "https://www.botify.com/blog/virtual-robots-txt"
       ]
@@ -1569,9 +1561,9 @@
       "UserAgentPattern": "ias_crawler",
       "Method": "uaCidrMatch",
       "ValidDomains": [
-         "3.217.168.199/32",
-         "18.214.43.70/32",
-         "3.226.51.67/32"
+        "3.217.168.199/32",
+        "18.214.43.70/32",
+        "3.226.51.67/32"
       ],
       "Sources": [
         "https://integralads.com/ias-privacy-data-management/policies/site-indexing-policy/"
@@ -1653,8 +1645,7 @@
       "type": "Monitoring & Analytics",
       "UserAgentPattern": "StatusCake",
       "Method": "uaOnly",
-      "ValidDomains": [
-      ],
+      "ValidDomains": [],
       "Sources": [
         "https://www.statuscake.com/kb/knowledge-base/testing-websites-using-incapsula/"
       ]
@@ -1750,8 +1741,7 @@
       "type": "Feed Fetcher",
       "UserAgentPattern": "Feedwind",
       "Method": "uaOnly",
-      "ValidDomains": [
-      ],
+      "ValidDomains": [],
       "Sources": [
         "https://feed.mikle.com/support/feedwind-crawler-update-frequency/"
       ]
@@ -1815,7 +1805,7 @@
       ]
     },
     {
-      "Name": "Cốc Cốc",
+      "Name": "C\u1ed1c C\u1ed1c",
       "Owner": "Coccoc",
       "type": "Search Engine Optimization",
       "UserAgentPattern": "coccocbot",
@@ -1845,7 +1835,6 @@
         "https://wp-umbrella.com/communication-with-our-service/",
         "https://wp-umbrella.com/ips-v4/",
         "https://wp-umbrella.com/ips-v6/"
-
       ]
     },
     {
