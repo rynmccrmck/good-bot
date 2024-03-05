@@ -1584,9 +1584,9 @@
       "UserAgentPattern": " Better Uptime Bot",
       "Method": "uaCidrMatch",
       "ValidDomains": [
-        "139.162.109.252/32", 
-        "172.104.109.161/32", 
-        "172.104.50.111/32", 
+        "139.162.109.252/32",
+        "172.104.109.161/32",
+        "172.104.50.111/32",
         "172.104.50.169/32",
         "2400:8902::f03c:92ff:fe47:3951/128",
         "2400:8902::f03c:92ff:fe47:395f/128",
@@ -1632,7 +1632,7 @@
         "2a01:4f8:2200:346e::/128",
         "2a01:7e01::f03c:94ff:fe03:c4e1/128",
         "2a01:7e01::f03c:94ff:fe03:c4f3/128",
-        "45.33.100.21", 
+        "45.33.100.21/32",
         "45.56.78.139/32",
         "45.79.47.102/32",
         "74.207.228.249/32",
@@ -1737,7 +1737,7 @@
       "UserAgentPattern": "search\\.marginalia\\.nu",
       "Method": "uaCidrMatch",
       "ValidDomains": [
-        "81.170.128.21/32", 
+        "81.170.128.21/32",
         "193.183.0.162/28"
       ],
       "Sources": [
@@ -1843,7 +1843,7 @@
       ],
       "Sources": [
         "https://wp-umbrella.com/communication-with-our-service/",
-        "https://wp-umbrella.com/ips-v4/", 
+        "https://wp-umbrella.com/ips-v4/",
         "https://wp-umbrella.com/ips-v6/"
 
       ]
@@ -1926,7 +1926,7 @@
       ],
       "Sources": [
         "https://iframely.com/docs/about",
-        "https://iframely.com/ips-v4" 
+        "https://iframely.com/ips-v4"
       ]
     }
   ]
